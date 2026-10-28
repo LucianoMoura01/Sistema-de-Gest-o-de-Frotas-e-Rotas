@@ -1,7 +1,7 @@
-// Gerenciador da Aba Motoristas e Modais com Upload de Imagem
+// Gerenciador da Aba Motoristas e Modais com Upload de Imagem e Validade da CNH
 const MotoristasManager = {
   motoristas: [],
-  tempFotoBase64: "", // Armazena temporariamente a imagem convertida
+  tempFotoBase64: "",
 
   init() {
     this.motoristas = MouraDB.getMotoristas();
@@ -24,8 +24,18 @@ const MotoristasManager = {
       const veiculoVinculado = veiculos.find(v => v.motorista === m.nome);
       const veiculoTexto = veiculoVinculado ? `${veiculoVinculado.placa} (${veiculoVinculado.modelo})` : 'Nenhum veículo vinculado';
 
-      // Usa a imagem em base64 salva ou exibe uma padrão
       const fotoPerfil = m.foto && m.foto.trim() !== "" ? m.foto : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+      // Formata a data de YYYY-MM-DD para DD/MM/YYYY se existir
+      let validadeFormatada = "-";
+      if (m.validade) {
+        const partes = m.validade.split('-');
+        if (partes.length === 3) {
+          validadeFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+        } else {
+          validadeFormatada = m.validade;
+        }
+      }
 
       const card = document.createElement('div');
       card.className = 'driver-card';
@@ -41,6 +51,9 @@ const MotoristasManager = {
           <div class="driver-details">
             <div class="driver-detail-item">
               <i class="fa-solid fa-id-card"></i> <strong>Tipo CNH:</strong> ${m.categoria || 'D'}
+            </div>
+            <div class="driver-detail-item">
+              <i class="fa-solid fa-calendar-days"></i> <strong>Validade CNH:</strong> ${validadeFormatada}
             </div>
             <div class="driver-detail-item">
               <i class="fa-solid fa-truck"></i> <strong>Veículo:</strong> ${veiculoTexto}
@@ -61,20 +74,18 @@ const MotoristasManager = {
   },
 
   setupEvents() {
-    // Listener para o input de arquivo (Upload)
     const inputFile = document.getElementById('motorista-foto-file');
     inputFile.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (uploadEvent) => {
-          this.tempFotoBase64 = uploadEvent.target.result; // Salva a imagem convertida
+          this.tempFotoBase64 = uploadEvent.target.result;
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // Botão Adicionar Motorista
     document.getElementById('btn-add-motorista').addEventListener('click', () => {
       document.getElementById('modal-motorista-title').innerText = "Cadastrar Novo Motorista";
       document.getElementById('motorista-id-edit').value = "";
@@ -83,13 +94,13 @@ const MotoristasManager = {
       document.getElementById('modal-motorista').classList.add('active');
     });
 
-    // Submissão do Formulário de Motorista (Criar/Editar)
     document.getElementById('form-motorista').addEventListener('submit', (e) => {
       e.preventDefault();
       const idEdit = document.getElementById('motorista-id-edit').value;
       const nome = document.getElementById('motorista-nome').value;
       const cnh = document.getElementById('motorista-cnh').value;
       const categoria = document.getElementById('motorista-categoria').value;
+      const validade = document.getElementById('motorista-validade').value;
 
       if (idEdit) {
         const m = this.motoristas.find(i => i.id == idEdit);
@@ -97,8 +108,9 @@ const MotoristasManager = {
           m.nome = nome;
           m.cnh = cnh;
           m.categoria = categoria;
+          m.validade = validade;
           if (this.tempFotoBase64) {
-            m.foto = this.tempFotoBase64; // Atualiza apenas se uma nova foto foi enviada
+            m.foto = this.tempFotoBase64;
           }
         }
       } else {
@@ -107,7 +119,8 @@ const MotoristasManager = {
           nome: nome,
           cnh: cnh,
           categoria: categoria,
-          foto: this.tempFotoBase64 || "", // Salva a imagem convertida ou vazia
+          validade: validade,
+          foto: this.tempFotoBase64 || "",
           historicoRotas: [
             { rota: "Integração Operacional Região Metropolitana", data: "26/10/2026", status: "Concluída" }
           ]
@@ -130,8 +143,9 @@ const MotoristasManager = {
     document.getElementById('motorista-nome').value = m.nome;
     document.getElementById('motorista-cnh').value = m.cnh;
     document.getElementById('motorista-categoria').value = m.categoria || 'D';
-    document.getElementById('motorista-foto-file').value = ""; // Reseta o input file
-    this.tempFotoBase64 = m.foto || ""; // Mantém a foto anterior por padrão
+    document.getElementById('motorista-validade').value = m.validade || '';
+    document.getElementById('motorista-foto-file').value = "";
+    this.tempFotoBase64 = m.foto || "";
 
     document.getElementById('modal-motorista').classList.add('active');
   },

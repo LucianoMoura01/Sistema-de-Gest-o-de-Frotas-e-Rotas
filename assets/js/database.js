@@ -1,12 +1,11 @@
 // Base de dados e persistência
 const MouraDB = {
-  getMotoristas() {
+getMotoristas() {
     return JSON.parse(localStorage.getItem('moura_motoristas')) || [
-      { id: 1, nome: "Carlos Silva", cnh: "12345678900", categoria: "D" },
-      { id: 2, nome: "João Pereira", cnh: "98765432100", categoria: "E" },
-      { id: 3, nome: "Ana Souza", cnh: "45678912300", categoria: "D" },
-      { id: 4, nome: "Marcos Lima", cnh: "78912345600", categoria: "C" },
-      { id: 5, nome: "Nenhum Motorista Vinculado", cnh: "-", categoria: "-" }
+      { id: 1, nome: "Carlos Silva", cnh: "12345678900", categoria: "D", validade: "2028-10-15", foto: "", historicoRotas: [] },
+      { id: 2, nome: "João Pereira", cnh: "98765432100", categoria: "E", validade: "2027-05-20", foto: "", historicoRotas: [] },
+      { id: 3, nome: "Ana Souza", cnh: "45678912300", categoria: "D", validade: "2029-01-10", foto: "", historicoRotas: [] },
+      { id: 4, nome: "Marcos Lima", cnh: "78912345600", categoria: "C", validade: "2026-12-05", foto: "", historicoRotas: [] }
     ];
   },
 
