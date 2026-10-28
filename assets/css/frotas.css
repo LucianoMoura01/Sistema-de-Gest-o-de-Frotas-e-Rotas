@@ -1,0 +1,68 @@
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.fleet-controls { margin-bottom: 20px; }
+.filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn-fleet-filter {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-fleet-filter.active {
+  background-color: var(--primary-green);
+  color: #000; font-weight: 600; border-color: var(--primary-green);
+}
+
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.vehicle-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vehicle-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08); }
+.vehicle-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.vehicle-title h4 { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); }
+.vehicle-title span { font-size: 0.75rem; color: var(--text-muted); background: var(--bg-main); padding: 2px 6px; border-radius: 4px; }
+
+.vehicle-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; font-size: 0.85rem; }
+.vehicle-info-item { display: flex; align-items: center; gap: 8px; color: var(--text-dark); }
+.vehicle-info-item i { color: var(--primary-green); width: 16px; }
+
+.vehicle-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 12px; border-top: 1px solid var(--border-color);
+}
+
+.action-btn-group { display: flex; gap: 6px; }
+
+.btn-action-icon {
+  width: 34px; height: 34px; border-radius: 6px;
+  border: 1px solid var(--border-color); background: var(--bg-main);
+  color: var(--text-dark); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s ease;
+}
+
+.btn-action-icon:hover { background: var(--primary-green-light); color: var(--primary-green-hover); border-color: var(--primary-green); }
+.btn-action-icon.btn-delete:hover { background: rgba(239, 68, 68, 0.15); color: var(--status-danger); border-color: var(--status-danger); }
+
+.history-list { display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; }
+.history-item { background: var(--bg-main); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--primary-green); font-size: 0.85rem; }
+.history-item p { margin: 2px 0; }
+.history-item .history-date { font-size: 0.7rem; color: var(--text-muted); }

@@ -4,29 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moura Tracker | Gestão de Frotas e Rotas</title>
-  <!-- Google Fonts & Font Awesome Icons -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- CSS do Leaflet para o Mapa Real -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/frotas.css">
 </head>
 <body>
 
-  <!-- Sidebar / Menu Lateral -->
   <aside class="sidebar">
     <div class="brand">
       <i class="fa-solid fa-truck-fast brand-icon"></i>
       <h2>Moura<span>Tracker</span></h2>
     </div>
     <nav class="menu">
-      <a href="#" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-      <a href="#"><i class="fa-solid fa-truck"></i> Frotas</a>
-      <a href="#"><i class="fa-solid fa-route"></i> Rotas</a>
-      <a href="#"><i class="fa-solid fa-users"></i> Motoristas</a>
-      <a href="#"><i class="fa-solid fa-clipboard-check"></i> Auditoria</a>
+      <a href="#" class="nav-link active" data-tab="tab-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="#" class="nav-link" data-tab="tab-frotas"><i class="fa-solid fa-truck"></i> Frotas</a>
+      <a href="#" class="nav-link" data-tab="tab-rotas"><i class="fa-solid fa-route"></i> Rotas</a>
+      <a href="#" class="nav-link" data-tab="tab-motoristas"><i class="fa-solid fa-users"></i> Motoristas</a>
+      <a href="#" class="nav-link" data-tab="tab-auditoria"><i class="fa-solid fa-clipboard-check"></i> Auditoria</a>
     </nav>
     <div class="user-profile">
       <i class="fa-solid fa-circle-user user-avatar"></i>
@@ -37,162 +38,129 @@
     </div>
   </aside>
 
-  <!-- Conteúdo Principal -->
   <main class="main-content">
-    
-    <!-- Topbar / Cabeçalho -->
     <header class="topbar">
       <div class="search-bar">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Buscar veículo, rota ou motorista...">
+        <input type="text" id="global-search" placeholder="Buscar veículo, placa ou motorista...">
       </div>
       <div class="topbar-actions">
         <button class="btn-icon" title="Notificações"><i class="fa-solid fa-bell"></i><span class="badge">3</span></button>
-        <button class="btn-primary" id="btn-novo-veiculo"><i class="fa-solid fa-plus"></i> Novo Veículo</button>
       </div>
     </header>
 
-    <!-- Cards de Indicadores (KPIs) -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-info">
-          <p class="kpi-title">Frota Total</p>
-          <h3 class="kpi-value" id="kpi-total">185</h3>
-          <span class="kpi-subtext positive"><i class="fa-solid fa-check"></i> 100% Operacional</span>
-        </div>
-        <div class="kpi-icon icon-primary"><i class="fa-solid fa-truck-front"></i></div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-info">
-          <p class="kpi-title">Em Rota</p>
-          <h3 class="kpi-value" id="kpi-rota">157</h3>
-          <span class="kpi-subtext neutral">85% da frota ativa</span>
-        </div>
-        <div class="kpi-icon icon-success"><i class="fa-solid fa-location-arrow"></i></div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-info">
-          <p class="kpi-title">Em Manutenção</p>
-          <h3 class="kpi-value" id="kpi-manutencao">18</h3>
-          <span class="kpi-subtext warning"><i class="fa-solid fa-triangle-exclamation"></i> Requer atenção</span>
-        </div>
-        <div class="kpi-icon icon-warning"><i class="fa-solid fa-wrench"></i></div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-info">
-          <p class="kpi-title">Incidentes / Atrasos</p>
-          <h3 class="kpi-value" id="kpi-incidentes">2</h3>
-          <span class="kpi-subtext alert"><i class="fa-solid fa-circle-exclamation"></i> Ação mandatória</span>
-        </div>
-        <div class="kpi-icon icon-danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      </div>
-    </section>
-
-    <!-- Seção Central: Mapa + Rotas Críticas -->
-    <section class="dashboard-grid">
-      
-      <!-- Mapa Real Leaflet -->
-      <div class="card map-card">
-        <div class="card-header">
-          <h3><i class="fa-solid fa-map-location-dot"></i> Monitoramento em Tempo Real</h3>
-          <div class="map-controls">
-            <button class="btn-filter active" data-filter="todos">Todos</button>
-            <button class="btn-filter" data-filter="em_rota">Em Rota</button>
-            <button class="btn-filter" data-filter="alerta">Alertas</button>
+    <div id="tab-dashboard" class="tab-content active">
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <p class="kpi-title">Frota Total</p>
+            <h3 class="kpi-value" id="kpi-total">0</h3>
+            <span class="kpi-subtext positive"><i class="fa-solid fa-check"></i> 100% Operacional</span>
           </div>
+          <div class="kpi-icon icon-primary"><i class="fa-solid fa-truck-front"></i></div>
         </div>
-        <!-- Elemento onde o mapa real será renderizado -->
-        <div id="map"></div>
-      </div>
 
-      <!-- Feed de Alertas e Rotas Críticas -->
-      <div class="card alerts-card">
-        <div class="card-header">
-          <h3><i class="fa-solid fa-bell"></i> Ocorrências e Rotas Críticas</h3>
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <p class="kpi-title">Em Rota</p>
+            <h3 class="kpi-value" id="kpi-rota">0</h3>
+            <span class="kpi-subtext neutral">Frota ativa em campo</span>
+          </div>
+          <div class="kpi-icon icon-success"><i class="fa-solid fa-location-arrow"></i></div>
         </div>
-        <div class="alerts-list">
-          <div class="alert-item alert-danger">
-            <div class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
-            <div class="alert-details">
-              <h4>Veículo MT-0205 - Parada Não Programada</h4>
-              <p>BR-101 Sul KM 28 (Jaboatão) • Atraso estimado: 25 min</p>
-              <span class="alert-time">Há 12 minutos</span>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <p class="kpi-title">Em Manutenção</p>
+            <h3 class="kpi-value" id="kpi-manutencao">0</h3>
+            <span class="kpi-subtext warning"><i class="fa-solid fa-triangle-exclamation"></i> Requer atenção</span>
+          </div>
+          <div class="kpi-icon icon-warning"><i class="fa-solid fa-wrench"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <p class="kpi-title">Incidentes / Atrasos</p>
+            <h3 class="kpi-value" id="kpi-incidentes">1</h3>
+            <span class="kpi-subtext alert"><i class="fa-solid fa-circle-exclamation"></i> Ação mandatória</span>
+          </div>
+          <div class="kpi-icon icon-danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="card map-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-map-location-dot"></i> Monitoramento em Tempo Real</h3>
+            <div class="map-controls">
+              <button class="btn-filter active" data-filter="todos">Todos</button>
+              <button class="btn-filter" data-filter="em_rota">Em Rota</button>
+              <button class="btn-filter" data-filter="alerta">Alertas</button>
             </div>
           </div>
+          <div id="map"></div>
+        </div>
 
-          <div class="alert-item alert-warning">
-            <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <div class="alert-details">
-              <h4>Veículo MT-0118 - Manutenção Preventiva</h4>
-              <p>Revisão de freios e óleo agendada para amanhã</p>
-              <span class="alert-time">Há 45 minutos</span>
-            </div>
+        <div class="card alerts-card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-bell"></i> Ocorrências e Rotas Críticas</h3>
           </div>
-
-          <div class="alert-item alert-info">
-            <div class="alert-icon"><i class="fa-solid fa-circle-check"></i></div>
-            <div class="alert-details">
-              <h4>Rota R-104 Concluída</h4>
-              <p>Entrega realizada no Porto de Suape com sucesso</p>
-              <span class="alert-time">Há 1 hora</span>
+          <div class="alerts-list">
+            <div class="alert-item alert-danger">
+              <div class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+              <div class="alert-details">
+                <h4>Veículo PE-0205 - Parada Não Programada</h4>
+                <p>BR-101 Sul KM 28 (Jaboatão) • Atraso estimado: 25 min</p>
+                <span class="alert-time">Há 12 minutos</span>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+    </div>
+
+    <div id="tab-frotas" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2>Gestão de Veículos e Frotas</h2>
+          <p class="text-muted">Controle completo da frota de veículos, atribuições de motoristas e disponibilidade.</p>
+        </div>
+        <button class="btn-primary" id="btn-add-veiculo"><i class="fa-solid fa-plus"></i> Adicionar Veículo</button>
       </div>
 
-    </section>
-
-    <!-- Tabela de Frotas e Status -->
-    <section class="card table-card">
-      <div class="card-header">
-        <h3><i class="fa-solid fa-list-check"></i> Status Detalhado da Frota</h3>
-        <div class="table-filters">
-          <select id="filter-status">
-            <option value="todos">Todos os Status</option>
-            <option value="Em Rota">Em Rota</option>
-            <option value="Disponível">Disponível</option>
-            <option value="Manutenção">Manutenção</option>
-          </select>
+      <div class="fleet-controls">
+        <div class="filter-group">
+          <button class="btn-fleet-filter active" data-status="todos">Todos (<span id="count-todos">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Disponível">Disponíveis (<span id="count-disponivel">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Em Rota">Em Rota (<span id="count-emrota">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Manutenção">Em Manutenção (<span id="count-manutencao">0</span>)</button>
         </div>
       </div>
-      <div class="table-responsive">
-        <table id="fleet-table">
-          <thead>
-            <tr>
-              <th>ID / Veículo</th>
-              <th>Tipo</th>
-              <th>Motorista</th>
-              <th>Origem/Destino</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="fleet-table-body">
-            <!-- Inserido dinamicamente via JS -->
-          </tbody>
-        </table>
+
+      <div class="fleet-grid" id="fleet-grid-container">
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <!-- Modal para Cadastro de Novo Veículo -->
   <div class="modal-overlay" id="modal-veiculo">
     <div class="modal">
       <div class="modal-header">
-        <h3>Cadastrar Novo Veículo na Frota</h3>
-        <button class="btn-close" id="btn-close-modal">&times;</button>
+        <h3 id="modal-veiculo-title">Cadastrar Novo Veículo</h3>
+        <button class="btn-close btn-close-modal">&times;</button>
       </div>
       <form id="form-veiculo">
+        <input type="hidden" id="veiculo-id-edit">
         <div class="form-group">
-          <label for="codigo">Código ID (ex: MT-0400)</label>
-          <input type="text" id="codigo" required placeholder="MT-XXXX">
+          <label for="placa">Placa do Veículo</label>
+          <input type="text" id="placa" required placeholder="Ex: PE-0101">
         </div>
         <div class="form-group">
-          <label for="tipo">Tipo de Veículo</label>
+          <label for="modelo">Modelo e Marca</label>
+          <input type="text" id="modelo" required placeholder="Ex: Volvo FH 540">
+        </div>
+        <div class="form-group">
+          <label for="tipo">Categoria/Tipo</label>
           <select id="tipo" required>
             <option value="Caminhão">Caminhão</option>
             <option value="Carro-Pipa">Carro-Pipa</option>
@@ -201,31 +169,66 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="motorista">Motorista Responsável</label>
-          <input type="text" id="motorista" required placeholder="Nome do motorista">
-        </div>
-        <div class="form-group">
-          <label for="rota">Rota Inicial</label>
-          <input type="text" id="rota" required placeholder="Ex: Recife -> Cabo">
-        </div>
-        <div class="form-group">
-          <label for="status">Status Inicial</label>
-          <select id="status" required>
+          <label for="disponibilidade">Disponibilidade / Status</label>
+          <select id="disponibilidade" required>
             <option value="Disponível">Disponível</option>
             <option value="Em Rota">Em Rota</option>
             <option value="Manutenção">Manutenção</option>
           </select>
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="btn-cancelar">Cancelar</button>
+          <button type="button" class="btn-secondary btn-close-modal">Cancelar</button>
           <button type="submit" class="btn-primary">Salvar Veículo</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- JS do Leaflet -->
+  <div class="modal-overlay" id="modal-vincular">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Vincular Motorista ao Veículo</h3>
+        <button class="btn-close btn-close-modal">&times;</button>
+      </div>
+      <form id="form-vincular">
+        <input type="hidden" id="vincular-veiculo-id">
+        <p style="margin-bottom: 12px; font-size: 0.9rem;">Veículo: <strong id="vincular-veiculo-nome">-</strong></p>
+        <div class="form-group">
+          <label for="select-motorista">Selecione o Motorista</label>
+          <select id="select-motorista" required>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary btn-close-modal">Cancelar</button>
+          <button type="submit" class="btn-primary">Confirmar Vinculação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-historico">
+    <div class="modal" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3>Histórico de Rotas Realizadas</h3>
+        <button class="btn-close btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px; font-size: 0.9rem;">Veículo: <strong id="historico-veiculo-nome">-</strong></p>
+        <div class="history-list" id="history-list-container">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary btn-close-modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="assets/js/script.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/frotas.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
