@@ -4,4 +4,5 @@ document.addEventListener('DOMContentLoaded', () => {
   MapManager.init();
   FrotasManager.init();
   MotoristasManager.init();
+  RotasManager.init(); 
 });

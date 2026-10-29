@@ -18,6 +18,9 @@ const Navigation = {
         if (targetTab === 'tab-frotas') {
           FrotasManager.render();
         }
+        if (targetTab === 'tab-rotas') {
+          RotasManager.renderMapas();
+        }
         if (targetTab === 'tab-motoristas') {
           MotoristasManager.render();
         }
