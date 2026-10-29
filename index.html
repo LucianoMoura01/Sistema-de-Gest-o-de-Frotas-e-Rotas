@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
   <link rel="stylesheet" href="assets/css/frotas.css">
+  <link rel="stylesheet" href="assets/css/rotas.css">
   <link rel="stylesheet" href="assets/css/motoristas.css">
 </head>
 <body>
@@ -120,27 +121,169 @@
       </section>
     </div>
 
-    <!-- ABA FROTAS -->
-    <div id="tab-frotas" class="tab-content">
-      <div class="section-header">
-        <div>
-          <h2>Gestão de Veículos e Frotas</h2>
-          <p class="text-muted">Controle completo da frota de veículos, atribuições de motoristas e disponibilidade.</p>
+<!-- ABA 3: ROTAS -->
+    <div id="tab-rotas" class="tab-content">
+      
+      <!-- Seção Superior: Carrossel estilo Mission Cards -->
+      <div class="routes-carousel-section">
+        <div class="carousel-title-bar">
+          <h3>Missões / Solicitações de Rotas</h3>
+          <p class="text-muted">Selecione ou aceite uma rota pendente para alocação de frota.</p>
         </div>
-        <button class="btn-primary" id="btn-add-veiculo"><i class="fa-solid fa-plus"></i> Adicionar Veículo</button>
+        
+        <div class="carousel-wrapper">
+          <button class="carousel-btn btn-prev" id="btn-carousel-prev"><i class="fa-solid fa-chevron-left"></i></button>
+          
+          <div class="carousel-track-container" id="carousel-track">
+            
+            <!-- Cartão 1 -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <span class="mission-id">ROTA #1</span>
+                <span class="mission-badge status-disponivel">DISPONÍVEL</span>
+              </div>
+              <h4 class="mission-route">Recife → Cabo</h4>
+              <p class="mission-detail"><strong>Veículo:</strong> Caminhão</p>
+              <div class="mission-stats">
+                <div><span>Distância:</span> <strong>150 km</strong></div>
+                <div><span>Est. Time:</span> <strong>3h</strong></div>
+              </div>
+              <div class="mission-payout">
+                <span>Payout:</span> <strong>R$ 500</strong>
+              </div>
+            </div>
+
+            <!-- Cartão 2 -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <span class="mission-id">ENTREGA #34</span>
+                <span class="mission-badge status-andamento">EM ANDAMENTO</span>
+              </div>
+              <h4 class="mission-route">Recife → Caruaru</h4>
+              <p class="mission-detail"><strong>Veículo:</strong> Caminhão</p>
+              <div class="mission-stats">
+                <div><span>Distância:</span> <strong>135 km</strong></div>
+                <div><span>Est. Time:</span> <strong>2h 30m</strong></div>
+              </div>
+              <div class="mission-payout">
+                <span>Payout:</span> <strong>R$ 750</strong>
+              </div>
+            </div>
+
+            <!-- Cartão 3 -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <span class="mission-id">ENTREGA #35</span>
+                <span class="mission-badge status-pendente">PENDENTE</span>
+              </div>
+              <h4 class="mission-route">Jaboatão → Suape</h4>
+              <p class="mission-detail"><strong>Veículo:</strong> Van</p>
+              <div class="mission-stats">
+                <div><span>Distância:</span> <strong>45 km</strong></div>
+                <div><span>Est. Time:</span> <strong>1h 10m</strong></div>
+              </div>
+              <div class="mission-payout">
+                <span>Payout:</span> <strong>R$ 320</strong>
+              </div>
+            </div>
+
+            <!-- Cartão 4 -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <span class="mission-id">ENTREGA #36</span>
+                <span class="mission-badge status-pendente">PENDENTE</span>
+              </div>
+              <h4 class="mission-route">Recife → Olinda</h4>
+              <p class="mission-detail"><strong>Veículo:</strong> Van</p>
+              <div class="mission-stats">
+                <div><span>Distância:</span> <strong>18 km</strong></div>
+                <div><span>Est. Time:</span> <strong>40m</strong></div>
+              </div>
+              <div class="mission-payout">
+                <span>Payout:</span> <strong>R$ 180</strong>
+              </div>
+            </div>
+
+            <!-- Cartão 5 -->
+            <div class="mission-card">
+              <div class="mission-card-header">
+                <span class="mission-id">ENTREGA #37</span>
+                <span class="mission-badge status-pendente">PENDENTE</span>
+              </div>
+              <h4 class="mission-route">Cabo → Vitória</h4>
+              <p class="mission-detail"><strong>Veículo:</strong> Carro-Pipa</p>
+              <div class="mission-stats">
+                <div><span>Distância:</span> <strong>60 km</strong></div>
+                <div><span>Est. Time:</span> <strong>1h 30m</strong></div>
+              </div>
+              <div class="mission-payout">
+                <span>Payout:</span> <strong>R$ 450</strong>
+              </div>
+            </div>
+
+          </div>
+
+          <button class="carousel-btn btn-next" id="btn-carousel-next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
       </div>
 
-      <div class="fleet-controls">
-        <div class="filter-group">
-          <button class="btn-fleet-filter active" data-status="todos">Todos (<span id="count-todos">0</span>)</button>
-          <button class="btn-fleet-filter" data-status="Disponível">Disponíveis (<span id="count-disponivel">0</span>)</button>
-          <button class="btn-fleet-filter" data-status="Em Rota">Em Rota (<span id="count-emrota">0</span>)</button>
-          <button class="btn-fleet-filter" data-status="Manutenção">Em Manutenção (<span id="count-manutencao">0</span>)</button>
+      <!-- Seção Inferior: Rotas Ativas (2 Cartões Grandes com Degradê e Mapa) -->
+      <div class="active-routes-section">
+        <h3>Rotas Ativas em Campo</h3>
+
+        <div class="active-routes-grid">
+          
+          <!-- Rota Ativa 1 -->
+          <div class="active-route-card">
+            <div class="active-route-header header-blue">
+              <span class="route-number-badge">1</span>
+            </div>
+            
+            <div class="active-route-details">
+              <div class="route-info-main">
+                <h4>Route #2 (Recife - Cabo de Santo Agostinho)</h4>
+                <p><strong>Truck:</strong> SCANIA R450 | <strong>Driver:</strong> João Silva</p>
+              </div>
+              <div class="route-info-status">
+                <span class="status-tag">Status: <strong>EM ROTA (70%)</strong></span>
+                <span class="time-left">Time Left: <strong>1h 15m</strong></span>
+              </div>
+            </div>
+
+            <!-- Divisor em Degradê Suave -->
+            <div class="smooth-gradient-divider gradient-blue"></div>
+
+            <!-- Container do Mapa 1 -->
+            <div id="active-map-1" class="active-route-map"></div>
+          </div>
+
+          <!-- Rota Ativa 2 -->
+          <div class="active-route-card">
+            <div class="active-route-header header-orange">
+              <span class="route-number-badge">2</span>
+            </div>
+            
+            <div class="active-route-details">
+              <div class="route-info-main">
+                <h4>Route #5 (Jaboatão - Caruaru)</h4>
+                <p><strong>Van:</strong> MERCEDES SPRINTER | <strong>Driver:</strong> Maria Souza</p>
+              </div>
+              <div class="route-info-status">
+                <span class="status-tag orange">Status: <strong>EM ROTA (30%)</strong></span>
+                <span class="time-left">Time Left: <strong>2h 30m</strong></span>
+              </div>
+            </div>
+
+            <!-- Divisor em Degradê Suave -->
+            <div class="smooth-gradient-divider gradient-orange"></div>
+
+            <!-- Container do Mapa 2 -->
+            <div id="active-map-2" class="active-route-map"></div>
+          </div>
+
         </div>
       </div>
 
-      <div class="fleet-grid" id="fleet-grid-container">
-      </div>
     </div>
 
     <!-- ABA MOTORISTAS -->
@@ -308,6 +451,7 @@
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/map.js"></script>
   <script src="assets/js/frotas.js"></script>
+  <script src="assets/js/rotas.js"></script>
   <script src="assets/js/motoristas.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
