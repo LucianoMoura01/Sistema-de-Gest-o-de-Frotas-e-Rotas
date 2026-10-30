@@ -82,7 +82,7 @@ const FrotasManager = {
     });
 
     // Form Veículo
-    document.getElementById('btn-add-veiculo').addEventListener('click', () => {
+      document.getElementById('btn-add-veiculo-aba').addEventListener('click', () => {
       document.getElementById('modal-veiculo-title').innerText = "Cadastrar Novo Veículo";
       document.getElementById('veiculo-id-edit').value = "";
       document.getElementById('form-veiculo').reset();

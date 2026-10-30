@@ -10,6 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+  <!-- Módulos CSS -->
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/dashboard.css">
@@ -19,6 +22,7 @@
 </head>
 <body>
 
+  <!-- Sidebar / Menu Lateral -->
   <aside class="sidebar">
     <div class="brand">
       <i class="fa-solid fa-truck-fast brand-icon"></i>
@@ -40,7 +44,10 @@
     </div>
   </aside>
 
+  <!-- Conteúdo Principal -->
   <main class="main-content">
+    
+    <!-- Topbar -->
     <header class="topbar">
       <div class="search-bar">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -51,6 +58,7 @@
       </div>
     </header>
 
+    <!-- ABA 1: DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
       <section class="kpi-grid">
         <div class="kpi-card">
@@ -121,10 +129,32 @@
       </section>
     </div>
 
-<!-- ABA 3: ROTAS -->
+    <!-- ABA 2: FROTAS -->
+    <div id="tab-frotas" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2>Gestão de Veículos e Frotas</h2>
+          <p class="text-muted">Controle completo da frota de veículos, atribuições de motoristas e disponibilidade.</p>
+        </div>
+        <button class="btn-primary" id="btn-add-veiculo-aba"><i class="fa-solid fa-plus"></i> Adicionar Veículo</button>
+      </div>
+
+      <div class="fleet-controls">
+        <div class="filter-group">
+          <button class="btn-fleet-filter active" data-status="todos">Todos (<span id="count-todos">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Disponível">Disponíveis (<span id="count-disponivel">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Em Rota">Em Rota (<span id="count-emrota">0</span>)</button>
+          <button class="btn-fleet-filter" data-status="Manutenção">Em Manutenção (<span id="count-manutencao">0</span>)</button>
+        </div>
+      </div>
+
+      <div class="fleet-grid" id="fleet-grid-container">
+        <!-- Renderizado via JS (frotas.js) -->
+      </div>
+    </div>
+
+    <!-- ABA 3: ROTAS -->
     <div id="tab-rotas" class="tab-content">
-      
-      <!-- Seção Superior: Carrossel estilo Mission Cards -->
       <div class="routes-carousel-section">
         <div class="carousel-title-bar">
           <h3>Missões / Solicitações de Rotas</h3>
@@ -135,8 +165,6 @@
           <button class="carousel-btn btn-prev" id="btn-carousel-prev"><i class="fa-solid fa-chevron-left"></i></button>
           
           <div class="carousel-track-container" id="carousel-track">
-            
-            <!-- Cartão 1 -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <span class="mission-id">ROTA #1</span>
@@ -153,7 +181,6 @@
               </div>
             </div>
 
-            <!-- Cartão 2 -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <span class="mission-id">ENTREGA #34</span>
@@ -170,7 +197,6 @@
               </div>
             </div>
 
-            <!-- Cartão 3 -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <span class="mission-id">ENTREGA #35</span>
@@ -187,7 +213,6 @@
               </div>
             </div>
 
-            <!-- Cartão 4 -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <span class="mission-id">ENTREGA #36</span>
@@ -204,7 +229,6 @@
               </div>
             </div>
 
-            <!-- Cartão 5 -->
             <div class="mission-card">
               <div class="mission-card-header">
                 <span class="mission-id">ENTREGA #37</span>
@@ -220,20 +244,16 @@
                 <span>Payout:</span> <strong>R$ 450</strong>
               </div>
             </div>
-
           </div>
 
           <button class="carousel-btn btn-next" id="btn-carousel-next"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
       </div>
 
-      <!-- Seção Inferior: Rotas Ativas (2 Cartões Grandes com Degradê e Mapa) -->
       <div class="active-routes-section">
         <h3>Rotas Ativas em Campo</h3>
 
         <div class="active-routes-grid">
-          
-          <!-- Rota Ativa 1 -->
           <div class="active-route-card">
             <div class="active-route-header header-blue">
               <span class="route-number-badge">1</span>
@@ -250,14 +270,10 @@
               </div>
             </div>
 
-            <!-- Divisor em Degradê Suave -->
             <div class="smooth-gradient-divider gradient-blue"></div>
-
-            <!-- Container do Mapa 1 -->
             <div id="active-map-1" class="active-route-map"></div>
           </div>
 
-          <!-- Rota Ativa 2 -->
           <div class="active-route-card">
             <div class="active-route-header header-orange">
               <span class="route-number-badge">2</span>
@@ -274,19 +290,14 @@
               </div>
             </div>
 
-            <!-- Divisor em Degradê Suave -->
             <div class="smooth-gradient-divider gradient-orange"></div>
-
-            <!-- Container do Mapa 2 -->
             <div id="active-map-2" class="active-route-map"></div>
           </div>
-
         </div>
       </div>
-
     </div>
 
-    <!-- ABA MOTORISTAS -->
+    <!-- ABA 4: MOTORISTAS -->
     <div id="tab-motoristas" class="tab-content">
       <div class="section-header">
         <div>
@@ -296,13 +307,14 @@
         <button class="btn-primary" id="btn-add-motorista"><i class="fa-solid fa-plus"></i> Adicionar Motorista</button>
       </div>
 
-      <!-- Grid de Cards de Motoristas -->
       <div class="driver-grid" id="driver-grid-container">
         <!-- Renderizado via JS (motoristas.js) -->
       </div>
     </div>
+
   </main>
 
+  <!-- MODAIS -->
   <div class="modal-overlay" id="modal-veiculo">
     <div class="modal">
       <div class="modal-header">
@@ -383,7 +395,6 @@
     </div>
   </div>
 
-<!-- MODAL: Adicionar/Editar Motorista -->
   <div class="modal-overlay" id="modal-motorista">
     <div class="modal">
       <div class="modal-header">
@@ -409,7 +420,6 @@
             <option value="E">E</option>
           </select>
         </div>
-        <!-- Validade da CNH -->
         <div class="form-group">
           <label for="motorista-validade">Validade da CNH</label>
           <input type="date" id="motorista-validade" required>
@@ -426,7 +436,6 @@
     </div>
   </div>
 
-  <!-- MODAL: Histórico de Rotas do Motorista -->
   <div class="modal-overlay" id="modal-historico-motorista">
     <div class="modal" style="max-width: 550px;">
       <div class="modal-header">
@@ -436,7 +445,6 @@
       <div class="modal-body">
         <p style="margin-bottom: 12px; font-size: 0.9rem;">Motorista: <strong id="historico-motorista-nome">-</strong></p>
         <div class="history-list" id="history-driver-list-container">
-          <!-- Inserido via JS -->
         </div>
       </div>
       <div class="modal-actions">
@@ -445,8 +453,9 @@
     </div>
   </div>
   
-  <!-- JS -->
+  <!-- Scripts JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
   <script src="assets/js/database.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/map.js"></script>

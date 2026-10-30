@@ -1,6 +1,6 @@
-/* --- SEÇÃO SUPERIOR: CARROSSEL DE MISSÕES --- */
 .routes-carousel-section {
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .carousel-title-bar {
@@ -11,6 +11,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .carousel-track-container {
@@ -19,11 +20,12 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 8px 4px;
-  scrollbar-width: none; /* Oculta barra de rolagem no Firefox */
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
 }
 
 .carousel-track-container::-webkit-scrollbar {
-  display: none; /* Oculta barra de rolagem no Chrome/Safari */
+  display: none; /* Chrome / Safari / Edge */
 }
 
 .carousel-btn {
@@ -42,13 +44,19 @@
   position: absolute;
 }
 
-.carousel-btn.btn-prev { left: -16px; }
-.carousel-btn.btn-next { right: -16px; }
+.carousel-btn.btn-prev {
+  left: -16px;
+}
 
-/* CARTÃO ESTILO "MISSION CARD" */
+.carousel-btn.btn-next {
+  right: -16px;
+}
+
+/* CARTÃO ESTILO "MISSION CARD" (ADAPTAÇÃO FLUÍDA POR CONTAINER) */
 .mission-card {
-  min-width: 220px;
-  max-width: 220px;
+  /* Padrão em monitores amplos: 5 cartões visíveis na tela */
+  flex: 0 0 calc((100% - (16px * 4)) / 5);
+  min-width: 200px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
@@ -57,11 +65,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
 .mission-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
 }
 
 .mission-card-header {
@@ -87,9 +97,20 @@
   border-radius: 10px;
 }
 
-.status-disponivel { background: #d1fae5; color: #047857; }
-.status-andamento { background: #fef3c7; color: #b45309; }
-.status-pendente { background: #e0f2fe; color: #0369a1; }
+.status-disponivel {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.status-andamento {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-pendente {
+  background: #e0f2fe;
+  color: #0369a1;
+}
 
 .mission-route {
   font-size: 0.95rem;
@@ -135,7 +156,7 @@
 
 .active-routes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 24px;
 }
 
@@ -156,11 +177,16 @@
   padding: 0 16px;
 }
 
-.header-blue { background-color: #2563eb; }
-.header-orange { background-color: #f97316; }
+.header-blue {
+  background-color: #2563eb;
+}
+
+.header-orange {
+  background-color: #f97316;
+}
 
 .route-number-badge {
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -193,11 +219,20 @@
   font-size: 0.8rem;
 }
 
-.status-tag { color: #2563eb; }
-.status-tag.orange { color: #ea580c; }
-.time-left { color: var(--text-muted); font-size: 0.75rem; }
+.status-tag {
+  color: #2563eb;
+}
 
-/* DEGRADÊ SUAVE ACIMA DO MAPA */
+.status-tag.orange {
+  color: #ea580c;
+}
+
+.time-left {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* DEGRADÊ SUAVE ENTRE AS INFORMAÇÕES E O MAPA */
 .smooth-gradient-divider {
   height: 24px;
   width: 100%;
@@ -211,15 +246,52 @@
   background: linear-gradient(180deg, #ffffff 0%, #ffedd5 100%);
 }
 
-/* MAPA DE ACOMPANHAMENTO */
+/* MAPA DE ACOMPANHAMENTO GPS */
 .active-route-map {
   height: 260px;
   width: 100%;
   z-index: 1;
 }
 
-@media (max-width: 900px) {
+/* Oculta o painel flutuante de instruções texto a texto do plugin Leaflet Routing Machine / OSRM */
+.leaflet-routing-container {
+  display: none !important;
+}
+
+/* --- MEDIA QUERIES (RESPONSIVIDADE) --- */
+
+/* Monitores médios / notebooks: exibe 4 cartões de missões */
+@media (max-width: 1400px) {
+  .mission-card {
+    flex: 0 0 calc((100% - (16px * 3)) / 4);
+  }
+}
+
+/* Tablets em modo paisagem / notebooks pequenos: exibe 3 cartões */
+@media (max-width: 1024px) {
+  .mission-card {
+    flex: 0 0 calc((100% - (16px * 2)) / 3);
+  }
+}
+
+/* Tablets em modo retrato: exibe 2 cartões e ajusta grid de rotas ativas */
+@media (max-width: 768px) {
+  .mission-card {
+    flex: 0 0 calc((100% - 16px) / 2);
+  }
+
   .active-routes-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Smartphones: exibe 1 cartão amplo (85% da tela) com margem para scroll */
+@media (max-width: 480px) {
+  .mission-card {
+    flex: 0 0 85%;
+  }
+
+  .carousel-btn {
+    display: none; /* Oculta setas laterais no mobile em favor do touch scroll */
   }
 }
