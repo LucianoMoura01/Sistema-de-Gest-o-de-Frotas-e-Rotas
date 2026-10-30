@@ -1,0 +1,225 @@
+/* --- SEÇÃO SUPERIOR: CARROSSEL DE MISSÕES --- */
+.routes-carousel-section {
+  margin-bottom: 32px;
+}
+
+.carousel-title-bar {
+  margin-bottom: 16px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 4px;
+  scrollbar-width: none; /* Oculta barra de rolagem no Firefox */
+}
+
+.carousel-track-container::-webkit-scrollbar {
+  display: none; /* Oculta barra de rolagem no Chrome/Safari */
+}
+
+.carousel-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  position: absolute;
+}
+
+.carousel-btn.btn-prev { left: -16px; }
+.carousel-btn.btn-next { right: -16px; }
+
+/* CARTÃO ESTILO "MISSION CARD" */
+.mission-card {
+  min-width: 220px;
+  max-width: 220px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.mission-card:hover {
+  transform: translateY(-3px);
+}
+
+.mission-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mission-id {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.mission-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.status-disponivel { background: #d1fae5; color: #047857; }
+.status-andamento { background: #fef3c7; color: #b45309; }
+.status-pendente { background: #e0f2fe; color: #0369a1; }
+
+.mission-route {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.mission-detail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.mission-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.mission-payout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 8px;
+  color: var(--text-dark);
+}
+
+.mission-payout strong {
+  color: var(--status-success);
+}
+
+/* --- SEÇÃO INFERIOR: ROTAS ATIVAS --- */
+.active-routes-section h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.active-routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 24px;
+}
+
+.active-route-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.active-route-header {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.header-blue { background-color: #2563eb; }
+.header-orange { background-color: #f97316; }
+
+.route-number-badge {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.active-route-details {
+  padding: 16px 20px 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.route-info-main h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.route-info-main p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.route-info-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+}
+
+.status-tag { color: #2563eb; }
+.status-tag.orange { color: #ea580c; }
+.time-left { color: var(--text-muted); font-size: 0.75rem; }
+
+/* DEGRADÊ SUAVE ACIMA DO MAPA */
+.smooth-gradient-divider {
+  height: 24px;
+  width: 100%;
+}
+
+.gradient-blue {
+  background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+}
+
+.gradient-orange {
+  background: linear-gradient(180deg, #ffffff 0%, #ffedd5 100%);
+}
+
+/* MAPA DE ACOMPANHAMENTO */
+.active-route-map {
+  height: 260px;
+  width: 100%;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .active-routes-grid {
+    grid-template-columns: 1fr;
+  }
+}
